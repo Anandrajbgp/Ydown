@@ -7,6 +7,7 @@ requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
 
 [nix]
 channel = "stable-24_11"
+packages = ["ffmpeg"]
 
 [deployment]
 run = ["node", "index.js"]
@@ -43,7 +44,3 @@ outputType = "webview"
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 39115
-externalPort = 3000

@@ -39,13 +39,13 @@ export async function POST(request) {
       .map(f => ({
         itag: f.itag,
         quality: f.qualityLabel || f.quality,
-        type: f.hasAudio ? f.container : `${f.container} (no audio)`,
+        type: f.container,
         hasVideo: true,
         hasAudio: f.hasAudio,
         container: f.container,
       }))
       .filter((f, i, arr) => 
-        arr.findIndex(t => t.quality === f.quality && t.hasAudio === f.hasAudio && t.container === f.container) === i
+        arr.findIndex(t => t.quality === f.quality) === i
       )
       .sort((a, b) => {
         const qualityOrder = { '2160p': 7, '1440p': 6, '1080p': 5, '720p': 4, '480p': 3, '360p': 2, '240p': 1, '144p': 0 }
