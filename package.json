@@ -1,15 +1,20 @@
 {
-  "name": "nodejs",
+  "name": "youtube-downloader",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "YouTube video and audio downloader",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev -H 0.0.0.0 -p 5000",
+    "build": "next build",
+    "start": "next start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^22.13.11"
+    "@distube/ytdl-core": "^4.16.12",
+    "@types/node": "^22.13.11",
+    "next": "^16.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   }
 }
