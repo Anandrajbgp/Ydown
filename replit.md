@@ -78,6 +78,13 @@ Downloads the requested video/audio format.
 **Response:** Binary file stream with appropriate headers
 
 ## Recent Changes
+- **2025-11-13**: Updated to show all formats in separate sections
+  - Separated video and audio downloads into distinct sections
+  - Show all available video qualities (including 1080p, 1440p, 2160p)
+  - Show all available audio qualities with bitrate sorting
+  - Video-only formats now labeled with "(no audio)"
+  - Added visual styling improvements for format sections
+  
 - **2025-11-13**: Initial project setup
   - Created Next.js application with App Router
   - Implemented video information fetching API
