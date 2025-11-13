@@ -78,11 +78,17 @@ Downloads the requested video/audio format.
 **Response:** Binary file stream with appropriate headers
 
 ## Recent Changes
+- **2025-11-13**: Added video+audio merging for high-quality downloads
+  - Installed ffmpeg for stream merging
+  - High-quality videos (1080p+) now download WITH audio
+  - VP9/AV1 codecs output as WebM, H.264 outputs as MP4
+  - Automatic audio stream selection and merging
+  - Proper error handling for ffmpeg processes
+  
 - **2025-11-13**: Updated to show all formats in separate sections
   - Separated video and audio downloads into distinct sections
   - Show all available video qualities (including 1080p, 1440p, 2160p)
   - Show all available audio qualities with bitrate sorting
-  - Video-only formats now labeled with "(no audio)"
   - Added visual styling improvements for format sections
   
 - **2025-11-13**: Initial project setup
