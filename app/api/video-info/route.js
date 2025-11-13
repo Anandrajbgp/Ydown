@@ -35,19 +35,20 @@ export async function POST(request) {
     }
 
     const videoFormats = info.formats
-      .filter(f => f.hasVideo && f.hasAudio)
+      .filter(f => f.hasVideo)
       .map(f => ({
         itag: f.itag,
         quality: f.qualityLabel || f.quality,
-        type: `Video (${f.container})`,
+        type: f.hasAudio ? f.container : `${f.container} (no audio)`,
         hasVideo: true,
+        hasAudio: f.hasAudio,
         container: f.container,
       }))
       .filter((f, i, arr) => 
-        arr.findIndex(t => t.quality === f.quality) === i
+        arr.findIndex(t => t.quality === f.quality && t.hasAudio === f.hasAudio && t.container === f.container) === i
       )
       .sort((a, b) => {
-        const qualityOrder = { '1080p': 5, '720p': 4, '480p': 3, '360p': 2, '240p': 1, '144p': 0 }
+        const qualityOrder = { '2160p': 7, '1440p': 6, '1080p': 5, '720p': 4, '480p': 3, '360p': 2, '240p': 1, '144p': 0 }
         return (qualityOrder[b.quality] || 0) - (qualityOrder[a.quality] || 0)
       })
 
@@ -56,23 +57,25 @@ export async function POST(request) {
       .map(f => ({
         itag: f.itag,
         quality: f.audioBitrate ? `${f.audioBitrate}kbps` : 'Audio',
-        type: `Audio (${f.container})`,
+        type: f.container,
         hasVideo: false,
         container: f.container,
       }))
       .filter((f, i, arr) => 
-        arr.findIndex(t => t.quality === f.quality) === i
+        arr.findIndex(t => t.quality === f.quality && t.container === f.container) === i
       )
-      .slice(0, 3)
-
-    const formats = [...videoFormats.slice(0, 6), ...audioFormats]
+      .sort((a, b) => {
+        const getBitrate = (q) => parseInt(q.replace('kbps', '')) || 0
+        return getBitrate(b.quality) - getBitrate(a.quality)
+      })
 
     const videoData = {
       title: info.videoDetails.title,
       thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1].url,
       duration: formatDuration(parseInt(info.videoDetails.lengthSeconds)),
       views: formatViews(parseInt(info.videoDetails.viewCount)),
-      formats: formats,
+      videoFormats: videoFormats,
+      audioFormats: audioFormats,
     }
 
     return NextResponse.json(videoData)

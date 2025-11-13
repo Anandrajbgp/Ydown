@@ -115,21 +115,41 @@ export default function Home() {
               <span>Views: {videoInfo.views}</span>
             </div>
 
-            <div className="formats">
-              <h4>Download Options</h4>
-              <div className="format-buttons">
-                {videoInfo.formats.map((format) => (
-                  <button
-                    key={format.itag}
-                    onClick={() => handleDownload(format)}
-                    className="format-btn"
-                  >
-                    <span className="format-quality">{format.quality}</span>
-                    <span className="format-type">{format.type}</span>
-                  </button>
-                ))}
+            {videoInfo.videoFormats && videoInfo.videoFormats.length > 0 && (
+              <div className="formats">
+                <h4>Video Downloads</h4>
+                <div className="format-buttons">
+                  {videoInfo.videoFormats.map((format) => (
+                    <button
+                      key={format.itag}
+                      onClick={() => handleDownload(format)}
+                      className="format-btn"
+                    >
+                      <span className="format-quality">{format.quality}</span>
+                      <span className="format-type">{format.type}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
+            {videoInfo.audioFormats && videoInfo.audioFormats.length > 0 && (
+              <div className="formats">
+                <h4>Audio Downloads</h4>
+                <div className="format-buttons">
+                  {videoInfo.audioFormats.map((format) => (
+                    <button
+                      key={format.itag}
+                      onClick={() => handleDownload(format)}
+                      className="format-btn"
+                    >
+                      <span className="format-quality">{format.quality}</span>
+                      <span className="format-type">{format.type}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
