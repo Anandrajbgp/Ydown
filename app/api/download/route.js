@@ -12,7 +12,18 @@ export async function POST(request) {
       )
     }
 
-    const info = await ytdl.getInfo(url)
+    const agent = ytdl.createAgent(undefined, {
+      localAddress: undefined
+    })
+
+    const info = await ytdl.getInfo(url, { 
+      agent,
+      requestOptions: {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Safari/537.36'
+        }
+      }
+    })
     const format = info.formats.find(f => f.itag === itag)
 
     if (!format) {
@@ -25,7 +36,7 @@ export async function POST(request) {
     if (format.hasAudio && format.hasVideo) {
       const extension = format.container || 'mp4'
       const filename = `${info.videoDetails.title.replace(/[^a-z0-9]/gi, '_')}.${extension}`
-      const stream = ytdl(url, { quality: itag })
+      const stream = ytdl(url, { quality: itag, agent })
 
       const readableStream = new ReadableStream({
         async start(controller) {
@@ -135,7 +146,7 @@ export async function POST(request) {
         },
       })
     } else if (!format.hasVideo && format.hasAudio) {
-      const stream = ytdl(url, { quality: itag })
+      const stream = ytdl(url, { quality: itag, agent })
       const extension = format.container || 'mp3'
       const audioFilename = `${info.videoDetails.title.replace(/[^a-z0-9]/gi, '_')}.${extension}`
 
